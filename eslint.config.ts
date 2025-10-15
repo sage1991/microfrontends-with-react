@@ -16,6 +16,7 @@ export default defineConfig([
   },
   ts.configs.recommended,
   react.configs.flat.recommended!,
+  react.configs.flat["jsx-runtime"]!,
   {
     files: ["**/*.css"],
     plugins: { css },
@@ -32,7 +33,8 @@ export default defineConfig([
   prettier,
   {
     rules: {
-      "@typescript-eslint/no-unused-expressions": "off"
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-empty-object-type": "off"
     }
   }
 ])

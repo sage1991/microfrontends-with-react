@@ -1,0 +1,51 @@
+name: Release MFP Container
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Release Container App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: lts/jod
+          cache: yarn
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Create .env File
+        run: |
+          echo "MFP_MARKETING_REMOTE_ENTRY=${{ vars.MFP_MARKETING_REMOTE_ENTRY }}" >> packages/mfp/container/.env
+          echo "MFP_DASHBOARD_REMOTE_ENTRY=${{ vars.MFP_DASHBOARD_REMOTE_ENTRY }}" >> packages/mfp/container/.env
+          echo "MFP_AUTH_REMOTE_ENTRY=${{ vars.MFP_AUTH_REMOTE_ENTRY }}" >> packages/mfp/container/.env
+
+      - name: Build Container
+        run: yarn workspace @mfp/container build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync packages/mfp/container/dist/ s3://${{ secrets.MFP_S3_BUCKET }}/container --delete
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+          --distribution-id ${{ secrets.MFP_CLOUDFRONT_DISTRIBUTION_ID }} \
+          --paths "/container/*"

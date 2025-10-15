@@ -2,7 +2,9 @@
   "extends": ["../../../tsconfig.json"],
   "compilerOptions": {
     "outDir": "./dist",
-    "paths": {}
+    "paths": {
+      "@mfp/marketing": ["../marketing/src/index.ts"]
+    }
   },
   "include": ["src"]
 }

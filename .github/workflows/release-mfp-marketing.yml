@@ -1,0 +1,45 @@
+name: Release MFP Marketing
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Release Marketing App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: lts/jod
+          cache: yarn
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Build Marketing
+        run: yarn workspace @mfp/marketing build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync packages/mfp/marketing/dist/ s3://${{ secrets.MFP_S3_BUCKET }}/marketing --delete
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+          --distribution-id ${{ secrets.MFP_CLOUDFRONT_DISTRIBUTION_ID }} \
+          --paths "/marketing/*"

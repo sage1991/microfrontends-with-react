@@ -7,11 +7,8 @@
     "packages/**/*"
   ],
   "scripts": {
-    "@ecomm:container": "yarn workspace @ecomm/container",
-    "@ecomm:products": "yarn workspace @ecomm/products",
-    "@ecomm:cart": "yarn workspace @ecomm/cart",
-    "@mfp:container": "yarn workspace @mfp/container",
-    "@mfp:marketing": "yarn workspace @mfp/marketing"
+    "@ecomm:dev": "yarn workspaces foreach -Rpi --from 'packages/ecomm/*' run start",
+    "@mfp:dev": "yarn workspaces foreach -Rpi --from 'packages/mfp/*' run start"
   },
   "devDependencies": {
     "@babel/cli": "^7.28.3",

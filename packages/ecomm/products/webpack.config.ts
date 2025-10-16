@@ -13,7 +13,6 @@ export default {
     path: path.resolve(__dirname, "dist")
   },
   devServer: {
-    open: true,
     host: "localhost",
     port: 3001
   },

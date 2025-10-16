@@ -17,7 +17,7 @@ export default merge<webpack.Configuration>(common, {
     port: 3000,
     host: "localhost",
     historyApiFallback: {
-      index: "index.html"
+      index: "/index.html"
     }
   }
 })

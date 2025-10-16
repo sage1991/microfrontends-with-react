@@ -1,11 +1,16 @@
 import { createTheme } from "@mui/material"
-import { ThemeProvider } from "@mui/styles"
+import {
+  createGenerateClassName,
+  StylesProvider,
+  ThemeProvider
+} from "@mui/styles"
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router"
 
 import { Header } from "./components/Header"
 import { MarketingApp } from "./components/MarketingApp"
 
 const theme = createTheme()
+const generateClassName = createGenerateClassName({ productionPrefix: "c" })
 
 const router = createBrowserRouter([
   {
@@ -25,8 +30,10 @@ const router = createBrowserRouter([
 
 export const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <StylesProvider generateClassName={generateClassName}>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </StylesProvider>
   )
 }

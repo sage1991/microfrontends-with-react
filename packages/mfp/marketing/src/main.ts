@@ -1,4 +1,7 @@
 ;(async () => {
   const { bootstrap } = await import("./bootstrap")
-  bootstrap(document.querySelector<HTMLDivElement>("#root"))
+  const container = document.querySelector<HTMLDivElement>("#root")
+  if (container) {
+    bootstrap({ container, routerConfig: { type: "browser" } })
+  }
 })()

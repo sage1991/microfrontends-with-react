@@ -4,29 +4,13 @@ import {
   StylesProvider,
   ThemeProvider
 } from "@mui/styles"
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router"
+import { RouterProvider } from "react-router"
 
-import { Header } from "./components/Header"
-import { MarketingApp } from "./components/MarketingApp"
+import { router } from "./router"
 
 const theme = createTheme()
-const generateClassName = createGenerateClassName({ productionPrefix: "c" })
 
-const router = createBrowserRouter([
-  {
-    index: true,
-    element: (
-      <>
-        <Header />
-        <MarketingApp />
-      </>
-    )
-  },
-  {
-    path: "*",
-    element: <Navigate replace to="/" />
-  }
-])
+const generateClassName = createGenerateClassName({ productionPrefix: "c" })
 
 export const App = () => {
   return (

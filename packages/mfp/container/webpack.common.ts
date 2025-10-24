@@ -50,10 +50,6 @@ export default {
           singleton: true,
           requiredVersion: dependencies["react-dom"]
         },
-        "react-router": {
-          singleton: true,
-          requiredVersion: dependencies["react-router"]
-        },
         "@babel/runtime": {
           singleton: true,
           requiredVersion: dependencies["@babel/runtime"]

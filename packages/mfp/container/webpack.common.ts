@@ -37,9 +37,9 @@ export default {
     new ModuleFederationPlugin({
       name: "container",
       remotes: {
-        "@mfp/marketing": process.env.MFP_MARKETING_REMOTE_ENTRY!,
+        "@mfp/auth": process.env.MFP_AUTH_REMOTE_ENTRY!,
         "@mfp/dashboard": process.env.MFP_DASHBOARD_REMOTE_ENTRY!,
-        "@mfp/auth": process.env.MFP_AUTH_REMOTE_ENTRY!
+        "@mfp/marketing": process.env.MFP_MARKETING_REMOTE_ENTRY!
       },
       shared: {
         react: {

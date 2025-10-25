@@ -11,7 +11,7 @@ export default merge<webpack.Configuration>(common, {
   devtool: "eval-source-map",
   entry: path.resolve(__dirname, "./src/main.ts"),
   output: {
-    publicPath: "/",
+    publicPath: "http://localhost:3001/",
     path: path.resolve(__dirname, "./dist")
   },
   devServer: {

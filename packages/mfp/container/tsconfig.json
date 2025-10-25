@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "paths": {
+      "@mfp/auth": ["../auth/src/index.ts"],
       "@mfp/marketing": ["../marketing/src/index.ts"]
     }
   },

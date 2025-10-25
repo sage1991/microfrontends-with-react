@@ -1,12 +1,10 @@
 import { createBrowserRouter, Outlet } from "react-router"
 
-import { AuthApp } from "../components/AuthApp"
 import { Header } from "../components/Header"
-import { MarketingApp } from "../components/MarketingApp"
 
 export const router = createBrowserRouter([
   {
-    element: (
+    Component: () => (
       <>
         <Header />
         <Outlet />
@@ -15,11 +13,17 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/auth/*",
-        element: <AuthApp />
+        lazy: async () => {
+          const { AuthApp } = await import("../components/AuthApp")
+          return { Component: AuthApp }
+        }
       },
       {
-        path: "*",
-        element: <MarketingApp />
+        path: "/*",
+        lazy: async () => {
+          const { MarketingApp } = await import("../components/MarketingApp")
+          return { Component: MarketingApp }
+        }
       }
     ]
   }
